@@ -99,9 +99,10 @@ public class WXController {
 			String respXml = wxSrv.replyMessageToUser(requestMap);
 			System.out.println("准备返回给用户的消息内容是 = " + respXml);
 			
-			
-			
-			System.out.println(requestMap.toString());
+			PrintWriter out = resp.getWriter();
+			out.print(respXml);
+			out.flush();
+			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
