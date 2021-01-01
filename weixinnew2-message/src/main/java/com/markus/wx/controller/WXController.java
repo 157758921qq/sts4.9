@@ -97,6 +97,7 @@ public class WXController {
 			//MsgType=text , 根据MsgType来分别处理
 			
 			String respXml = wxSrv.replyMessageToUser(requestMap);
+			System.out.println("准备返回给用户的消息内容是 = " + respXml);
 			
 			
 			

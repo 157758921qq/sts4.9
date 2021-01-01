@@ -17,6 +17,14 @@ import org.springframework.stereotype.Service;
 
 import com.markus.wx.config.WXConfig;
 import com.markus.wx.replymessage.entity.BaseMessage;
+import com.markus.wx.replymessage.entity.ImageMessage;
+import com.markus.wx.replymessage.entity.MusicMessage;
+import com.markus.wx.replymessage.entity.NewsMessage;
+import com.markus.wx.replymessage.entity.TextMessage;
+import com.markus.wx.replymessage.entity.VideoMessage;
+import com.markus.wx.replymessage.entity.VoiceMessage;
+import com.thoughtworks.xstream.XStream;
+
 
 
 
@@ -131,7 +139,7 @@ public class WXService {
 		switch (msgType) {
 		case "text":
 			// 根据不同的消息类型，开始处理具体的消息
-			
+			msg = dealTextMessage(requestMap);
 			break;
 		case "image":
 			
@@ -155,9 +163,30 @@ public class WXService {
 		}
 		// System.out.println(msg);
 		if (msg != null) {
-			//return beanToXml(msg);
+			//将对象转成XML
+			return objectToXml(msg);
 		}
 		return null;
 	}
 
+	
+
+	//回复一条Text文本类型的消息
+	private BaseMessage dealTextMessage(Map<String, String> requestMap) {
+		TextMessage tm = new TextMessage(requestMap, "欢迎您来到Markus的公众号，目前公众号还在建设中，敬请期待！");
+		return tm;
+	}
+
+	private String objectToXml(BaseMessage msg) {
+		XStream stream = new XStream();
+		// 设置需要处理的XStreamAlias("xml")注释的类
+		stream.processAnnotations(TextMessage.class);
+		stream.processAnnotations(ImageMessage.class);
+		stream.processAnnotations(MusicMessage.class);
+		stream.processAnnotations(NewsMessage.class);
+		stream.processAnnotations(VideoMessage.class);
+		stream.processAnnotations(VoiceMessage.class);
+		String xml = stream.toXML(msg);
+		return xml;
+	}
 }
