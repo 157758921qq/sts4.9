@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+{"button":
+	[
+		{"name":"一级点击","type":"click","key":"1"},
+		{"name":"一级跳转","type":"view","url":"http://baidu.com"},
+		{"name":"有子菜单","sub_button":
+			[
+				{"name":"传图","sub_button":[],"type":"pic_photo_or_album","key":"31"},
+				{"name":"点击","type":"click","key":"32"},
+				{"name":"网易新闻","type":"view","url":"http://news.163.com"}
+			]
+		}
+	]
+}
+
+
+PicUrl=http://mmbiz.qpic.cn/mmbiz_jpg/KibYFFIUMm70gjT4MDATDqX8icc27ib90dwHQjSx5ns2CPqV3Kbia9ZCsQj4PqADJXuvxUjK19psKufH9Q9YLs9Dfw/0,
+
+
+  {
+           "touser":"ot4eH6Iaf9lmMlDhQDy_BDFrgE98",
+           "template_id":"MzAQMFPgR4QrBXIRos6jmYhWIlE2yNZrPUbnoKGdjbQ",
+           "data":{
+                   "first": {
+                       "value":"您的信用卡！",
+                       "color":"#173177"
+                   },
+                   "company":{
+                       "value":"阿里巴巴",
+                       "color":"#173177"
+                   },
+                   "time": {
+                       "value":"2020年11月11日",
+                       "color":"#173177"
+                   },
+                   "result": {
+                       "value":"面试通过",
+                       "color":"#173177"
+                   },
+                   "remark":{
+                       "value":"请和本公司人事联系！",
+                       "color":"#173177"
+                   }
+           }
+       } 
+       
+       {"articles":[{"thumb_media_id":"5BXxAfc9cbhR8F9FqtIxUSflz0FrJ3VoVO5aEcvf_vxSmeiGjdJGBjwNKRJicjer","author":"Markus","only_fans_can_comment":"0","digest":"2020年是极不平凡的一年。面对突如其来的新冠肺炎疫情，我们以人民至上、生命至上诠释了人间大爱，用众志成城、坚忍不拔书写了抗疫史诗。","show_cover_pic":"1","content_source_url":"www.qq.com","need_open_comment":"1","title":"2021我爱我家","content":"在共克时艰的日子里，http://mmbiz.qpic.cn/mmbiz_jpg/SiaRSn312IPawkhSj0h9XxeibIokB2Xribosw8sXWKWmIOyMoQ4dnrbhwrr83hPicbxHQP7Cnk7FQxCC7wAKc2m8Bw/0，www.baidu.com"}]}
+       
+       
+       
+  {
+    "articles":
+     [
+     {
+	     "title": TITLE,
+	    "thumb_media_id": THUMB_MEDIA_ID,
+	    "author": AUTHOR,
+	    "digest": DIGEST,
+	    "show_cover_pic": SHOW_COVER_PIC(0 / 1),
+	    "content": CONTENT,
+	    "content_source_url": CONTENT_SOURCE_URL,
+	    "need_open_comment":1,
+	    "only_fans_can_comment":1
+	 },
+    //若新增的是多图文素材，则此处应还有几段articles结构
+    ]
+}
+
+
+{"expire_seconds": 604800, "action_name": "QR_SCENE", "action_info": {"scene": {"scene_id": 123}}} 
+
+
+{"expire_seconds": 604800, "action_name": "QR_STR_SCENE", "action_info": {"scene": {"scene_str": "宇宙最美"}}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
