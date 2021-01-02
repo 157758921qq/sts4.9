@@ -1,4 +1,4 @@
-package com.yz.wx.util;
+package com.markus.wx.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,13 +10,15 @@ import java.net.URLConnection;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import com.yz.wx.service.WxService;
-
-
 
 public class Util {
 	
-	
+	/**
+	 * 	向指定的url地址，发送get请求，
+	 * 	返回通过输入流读取返回值
+	 * @param url
+	 * @return
+	 */
 	public static String get(String url) {
 		try {
 			URL urlObj = new URL(url);
@@ -64,11 +66,9 @@ public class Util {
 		return null;
 	}
 	
-	
-		//https 发送post 文件
-		public static String upload(String path, String type) {
+	//https 发送post 文件
+		public static String upload(String path,String url) {
 			File file = new File(path);
-			String url ="https://api.weixin.qq.com/cgi-bin/media/upload?access_token="+WxService.getAccessToken()+"&type="+type+"";
 			try {
 				URL urlObj = new URL(url);
 				//强转为安全连接
@@ -128,7 +128,8 @@ public class Util {
 				e.printStackTrace();
 			}
 			return null;
-			
 		}
+	
+	
 	
 }
