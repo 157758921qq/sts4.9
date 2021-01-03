@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>病案管理科病历复印辅助系统</title>
+<!-- 在url上使用@标签，可以帮助我们自动加上contextpath -->
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+<script th:src="@{/js/bootstrap-table.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+
+<script type="text/javascript">
+	$(function() {
+	 　　 currentTime();  //待调用的函数
+	});
+	function currentTime() {
+		var d = new Date(), str = '';
+		str += d.getFullYear() + '年';
+		str += d.getMonth() + 1 + '月';
+		str += d.getDate() + '日' + '  ';
+		str += d.getHours() + '时';
+		str += d.getMinutes() + '分';
+		str += d.getSeconds() + '秒';
+		return str;
+	}
+	setInterval(function() {
+		$('#time').html(currentTime)
+	}, 1000);
+</script>
+
+<style>
+#nav_title {
+	font-size: 30px;
+	height: 20px;
+	color: #db5a6b;
+	margin-top: 12px;
+	font-weight: bold;
+}
+
+.timediv {
+	height: 50px;
+	line-height: 50px;
+	font-weight: bold;
+}
+
+#timedivleft {
+	height: 50px;
+	float: left;
+}
+
+#timedivright {
+	height: 50px;
+	text-align: center;
+	line-height: 50px;
+	float: right;
+}
+
+#time {
+	color: #db5a6b;
+	height: 15px;
+	text-align: center;
+	line-height: 15px;
+	font-size: 25px;
+	font-size: bold;
+}
+
+.t1 {
+	margin-left: 70px;
+}
+
+.t2 {
+	font-size: 20px;
+}
+
+.page-header {
+	position: relative;
+}
+</style>
+
+</head>
+<body>
+
+	<div class="container">
+		<nav class="navbar navbar-default navbar-static-top">
+
+			<p class="navbar-text  btn-primary">
+			<div id="nav_title" class="t1">扬州大学附属医院</div>
+			<div id="nav_title">病案管理科病历复印登记查询系统</div>
+			</p>
+			<div class="page-header timediv">
+				<div id="timedivleft">
+					<button id="today" class="btn btn-success" type="submit">当日报表查询</button>
+					<button id="month" class="btn btn-warning" type="submit">当月报表查询</button>
+					<button id="scope" class="btn btn-info" type="submit">自定义时间区间报表查询</button>
+
+				</div>
+				<div id="timedivright">
+					<h3 id="time"></h3>
+				</div>
+
+			</div>
+		</nav>
+	</div>
+
+	<script>
+	$("#today").click(function(){
+		window.location.href="/bak/listToday";	
+	});
+</script>
+
+	<script>
+	$("#month").click(function(){
+		window.location.href="/bak/listMonth";	
+	});
+</script>
+
+	<script>
+	$("#scope").click(function(){
+		window.location.href="/bak/listScope";	
+	});
+</script>
+
+
+	<div class="container">
+		<form class="form-horizontal">
+
+			<div class="form-group">
+				<label for="input1" class="col-sm-2 control-label t2">住院号：</label>
+				<div class="col-sm-10">
+					<input type="text" name="patientId" class="form-control"
+						autocomplete="off" id="input1" placeholder="请输入住院号">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="input2" class="col-sm-2 control-label t2">姓名：</label>
+				<div class="col-sm-10">
+					<input type="text" name="patientName" class="form-control"
+						autocomplete="off" id="input2" placeholder="请输入病人姓名">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="input7" class="col-sm-2 control-label t2">复印原因：</label>
+				<div class="col-sm-10">
+
+					<select class="form-control" id="input7" name="reason">
+						<option value="1">1(默认)</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+					</select>
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label for="input3" class="col-sm-2 control-label t2">复印份数：</label>
+				<div class="col-sm-10">
+					<input type="text" name="copies" class="form-control" id="input3"
+						autocomplete="off" placeholder="">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="input4" class="col-sm-2 control-label t2">每份复印张数：</label>
+				<div class="col-sm-10">
+					<input type="text" name="sheets" class="form-control" id="input4"
+						autocomplete="off" placeholder="">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="input5" class="col-sm-2 control-label t2">单价：</label>
+				<div class="col-sm-10">
+					<input type="text" name="price" readonly="readonly"
+						class="form-control" id="input5" value="0.35元">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="input6" class="col-sm-2 control-label t2">总价：</label>
+				<div class="col-sm-10">
+					<input type="text" name="totalPrice" class="form-control"
+						autocomplete="off" id="input6" placeholder="">
+				</div>
+			</div>
+
+			<button class="btn btn-danger btn-lg btn-block" id="submit1"
+				  >确认提交</button>
+				
+				
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+					</div>
+					<div class="modal-body">...</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Save
+							changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		</form>
+
+
+	</div>
+
+
+
+
+
+	<script type="text/javascript">
+	$("#submit1").click(function(){
+		var patientId = $("#input1").val();
+		if(patientId == "" || patientId == null){
+			alert("病人住院号不能为空");
+			return;
+			
+		}         
+		var patientName = $("#input2").val();
+		if(patientName == "" || patientName == null) {
+			alert("病人姓名不能为空");
+			return;
+		}
+		var reason = $("#input7").val();
+		
+		var copies = $("#input3").val();
+		if(copies == "" || copies == null || isNaN(Number(copies)) ) {
+			alert("复印份数不能为空或要填写为数字");
+			return;
+		}
+		
+		var sheets = $("#input4").val();
+		if(sheets == "" || sheets == null || isNaN(Number(sheets)) ) {
+			alert("每份张数不能为空或要填写为数字");
+			return;
+		}
+		var price = $("#input5").val();
+		var totalPrice = $("#input6").val();
+		
+		
+		
+		
+		var url ="/bak/collect";
+		var args = {
+				patientId:patientId,
+				patientName:patientName,
+				reason:reason,
+				copies:copies,
+				sheets:sheets,
+				price:price,
+				totalPrice:totalPrice
+		};
+		
+		$.post(url, args, function(data){
+			
+			
+			if(data == "SUCCESS"){
+				
+				alert("这条数据成功写入数据库！！");
+				 window.location.href = "/bak/";	
+			};
+			if(data == "ERROR"){
+				alert("这条数据写入数据库出错，请检查或联系系统管理员！！");
+			}
+			
+		})
+
+	});
+
+</script>
+
+
+</body>
+</html>
+
+<!-- 点击 -->
+<script>
+	$("#input1").blur(function() {
+		var patientId = $("#input1").val();
+		if (patientId == "" || patientId == null) {
+			alert("病人住院号，您未填写");
+			$("#input1").focus();
+			return;
+		}
+	});
+
+	$("#input2").blur(function() {
+		var patientName = $("#input2").val();
+		if (patientName == "" || patientName == null) {
+			alert("病人姓名，您未填写");
+			$("#input2").focus();
+			return;
+		}
+	});
+
+	$("#input3").blur(function() {
+		var copies = $("#input3").val();
+		if (copies == "" || copies == null) {
+			alert("复印份数，您未填写");
+			return;
+		}
+		var numcopies = Number(copies);
+		if (isNaN(numcopies))
+		{
+			alert("复印份数，您输入的不是数字");
+			$("#input3").focus();
+		    return;
+		} 
+		
+	});
+
+	$("#input4").blur(function() {
+		var copies = $("#input3").val();
+		var sheets = $("#input4").val();
+		var numsheets = Number(sheets);
+		if (isNaN(numsheets))
+		{
+			alert("复印张数，您输入的不是数字");
+			$("#input4").focus();
+		    return;
+		} 
+		var totalPrice = copies * sheets * 35 / 100;
+		//alert(totalPrice);
+		$("#input6").val(totalPrice + "元");
+
+	});
+	
+</script>
+
+
+
+
+
+
+
+
