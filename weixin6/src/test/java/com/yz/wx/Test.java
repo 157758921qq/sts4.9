@@ -31,7 +31,7 @@ public class Test {
 	@org.junit.jupiter.api.Test
 	public void createButton() {
 		//菜单对象
-		Button btn = new Button();
+		Button btn = new Button("Markus");
 		//第一个一级菜单
 		btn.getButton().add(new ClickButton("一级点击", "1"));
 		//第二个一级菜单

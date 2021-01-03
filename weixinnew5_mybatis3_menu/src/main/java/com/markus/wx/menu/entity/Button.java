@@ -1,4 +1,4 @@
-package com.yz.wx.entity;
+package com.markus.wx.menu.entity;
 
 import java.util.ArrayList;
 import java.util.List;
