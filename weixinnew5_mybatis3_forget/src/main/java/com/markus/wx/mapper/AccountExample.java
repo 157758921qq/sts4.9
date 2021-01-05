@@ -1,7 +1,6 @@
 package com.markus.wx.mapper;
 
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

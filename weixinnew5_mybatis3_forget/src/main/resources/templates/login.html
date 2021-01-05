@@ -15,11 +15,10 @@
 
 
 	<script th:src="@{/weui/js/jquery-weui.js}"></script>
-
-
 	<script th:src="@{/weui/js/jquery.min.js}"></script>
 
 
+ 
 
 
 	<style>
@@ -100,6 +99,10 @@
 </head>
 
 <body>
+
+	
+	
+	
 	<div class="container" id="imgdiv">
 		<img th:src="@{/images/12.jpg}" alt="带你一起向钱冲" class="img-rounded">
 	</div>
@@ -314,6 +317,62 @@
 					style="font-size: 35px;">注&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;册</a>
 			</div>
 			
+
+			
+			<!-- 提交验证码的请求 -->
+			<script>
+			var validate_date =0;
+			
+				//提交验证码的请求
+				$("#registerphonebtn").click(function() {
+					var flag = 300;                     //5分钟
+					var registerphone = $("#registerphone").val();
+					if (!(/^1\d{10}$/.test(registerphone))) {
+						$(".prompt").show();
+						$(".prompt").text("11位手机号码填写错误");
+						return;
+					};
+					$(this).attr("disabled","disabled");
+					//post请求
+					var url = "/wx/sendMsg";
+					var args = {
+							registerphone: registerphone
+					};
+					$.post(url, args, function (data) {
+						//后端返回的   "验证码发送成功"   "验证码发送失败"
+						//只判断 验证码发送成功的情况
+					
+							//启动倒计时,2分钟内填写有效，否则从新发送短信验证码
+					
+							validate_date = data;
+							alert(validate_date);
+							
+							var time = setInterval(function() {
+								flag--;
+								$("#registerphonebtn").html(flag +"&nbsp&nbsp秒");
+								if (flag == 0) {
+									clearInterval(time);
+									flag = 300;
+									$("#registerphonebtn").html("获取验证码")
+									
+									$("#registerphonebtn").removeAttr("disable");
+								}
+							}, 1000);
+						
+						
+					})
+				})
+			
+			</script>
+			
+			
+						<!-- 获取session中的值 
+			<script type="text/javascript" th:inline="javascript">
+					var sessionCode = [[${session.code}]];
+			</script>-->
+			
+				
+			
 			<script>
 			$("#registername").focus(function () {
 				$(".prompt").hide();
@@ -336,6 +395,7 @@
 
 
 			$("#registersubmit").click(function () {
+				
 
 				var registerName = $("#registername").val();
 				var registerPhone = $("#registerphone").val();
@@ -359,11 +419,22 @@
 						return;
 					}
 				}
+				
 				if (!registerVerificationCode || registerVerificationCode == '') {
 					$(".prompt").show();
 					$(".prompt").text("验证码填写有误");
 					return;
-				} 
+				} else {
+					alert("validate_date"+validate_date);
+					alert("registerVerificationCode"+registerVerificationCode)
+					//判断 前端填写的验证码和后端生成的验证码是否一致
+					if(registerVerificationCode != validate_date){
+						$(".prompt").show();
+						$(".prompt").text("验证码填写有误");
+						return;
+					}	
+				}
+
 				if (!registerPassword || registerPassword == '') {
 					$(".prompt").show();
 					$(".prompt").text("密码填写有误");
@@ -380,9 +451,10 @@
 					$(".prompt").text("两次填写的密码不一致");
 					return;
 				}
-			
 				
-				//post请求
+				alert("前端开始注册");
+				
+				//webcontroller里，用户注册post请求
 				var url = "/wx/register";
 				var args = {
 					registerName: registerName,
@@ -391,57 +463,12 @@
 					registerPassword:registerPassword
 				};
 				$.post(url, args, function (data) {
-					
+					//注册成功后跳转
 				})
 
 			});
 			</script>
-			
-			
-			
-			<script>
-				//提交验证码的请求
-				$("#registerphonebtn").click(function() {
-					
-					
-					var flag = 120;
-					var registerphone = $("#registerphone").val();
-					alert(registerphone);
-					if (!(/^1[3456789]\d{9}$/.test(registerphone))) {
-						$(".prompt").show();
-						$(".prompt").text("11位手机号码填写错误");
-						return;
-					};
-					$(this).attr("disabled","disabled");;
-					alert("提交数据开始");
-
-					//post请求
-					var url = "/wx/sendMsg";
-					var args = {
-							registerphone: registerphone
-					};
-					$.post(url, args, function (data) {
-						//后端返回的   "验证码发送成功"   "验证码发送失败"
-						//只判断 验证码发送成功的情况
-						if (data == "验证码发送成功") {
-							//启动倒计时,2分钟内填写有效，否则从新发送短信验证码
-							var time = setInterval(function() {
-								flag--;
-								$("#registerphonebtn").html(flag +"&nbsp&nbsp秒");
-								if (flag == 0) {
-									clearInterval(time);
-									flag = 120;
-									$("#registerphonebtn").html("获取验证码")
-									
-									$("#registerphonebtn").removeClass("disable");
-								}
-							}, 1000);
-						}
-					})
-				})
-			
-			</script>
-			
+		
 			
 			
 			
@@ -518,11 +545,6 @@
 
 			});
 	</script>
-
-
-
-
-
 
 
 
