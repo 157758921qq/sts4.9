@@ -91,7 +91,9 @@
 		}
 		
 		
-	
+		.footdiv {
+			margin-top:250px;
+		}
 	</style>
 
 
@@ -345,7 +347,7 @@
 							//启动倒计时,2分钟内填写有效，否则从新发送短信验证码
 					
 							validate_date = data;
-							alert(validate_date);
+							//alert(validate_date);
 							
 							var time = setInterval(function() {
 								flag--;
@@ -425,8 +427,8 @@
 					$(".prompt").text("验证码填写有误");
 					return;
 				} else {
-					alert("validate_date"+validate_date);
-					alert("registerVerificationCode"+registerVerificationCode)
+					//alert("validate_date"+validate_date);
+					//alert("registerVerificationCode"+registerVerificationCode)
 					//判断 前端填写的验证码和后端生成的验证码是否一致
 					if(registerVerificationCode != validate_date){
 						$(".prompt").show();
@@ -452,7 +454,7 @@
 					return;
 				}
 				
-				alert("前端开始注册");
+				//alert("前端开始注册");
 				
 				//webcontroller里，用户注册post请求
 				var url = "/wx/register";
@@ -550,7 +552,7 @@
 
 
 
-	<div class="weui-footer ">
+	<div class="weui-footer footdiv">
 		<p class="weui-footer__text">
 		<h2>欢迎您使用本微信产品</h2>
 		</p>
