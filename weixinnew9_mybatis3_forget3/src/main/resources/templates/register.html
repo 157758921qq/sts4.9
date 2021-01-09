@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Markus的微信公众号 - 会员中心</title>
+
+
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<script th:src="@{/js/bootstrap-table.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<!-- 在url上使用@标签，可以帮助我们自动加上contextpath -->
+<link rel="stylesheet" th:href="@{/weui/css/jquery-weui.css}">
+<link rel="stylesheet" th:href="@{/weui/css/weui.min.css}">
+
+
+<script th:src="@{/weui/js/jquery-weui.js}"></script>
+
+
+<script th:src="@{/weui/js/jquery.min.js}"></script>
+
+
+
+
+<style>
+#topheader {
+	font-size: 30px;
+}
+
+#tab2, #tab3 {
+	display: none;
+}
+
+.weui-cell {
+	height: 150px;
+	margin-top: 35px;
+	margin-bottom: 35px;
+}
+
+.weui-cell__hd {
+	width: 250px;
+	height: 150px;
+}
+
+.weui-label {
+	width: 250px;
+	height: 150px;
+	font-size: 35px;
+	line-height: 150px;
+	text-align: center;
+}
+
+.weui-input {
+	height: 150px;
+	font-size: 35px;
+}
+
+.weui-vcode-btn {
+	height: 150px;
+	font-size: 35px;
+	line-height: 150px;
+	text-align: center;
+}
+
+.prompt {
+	display: none;
+}
+
+#imgdiv {
+	width: 350px;
+	height: 350px;
+	text-align: center;
+}
+
+#imgdiv img {
+	width: 350px;
+	height: 350px;
+}
+
+.weui-navbar a {
+	font-size: 35px;
+}
+
+#submit {
+	margin-top: 15px;
+}
+</style>
+
+
+
+</head>
+
+<body>
+	<div class="container" id="imgdiv">
+		<img th:src="@{/images/12.jpg}" alt="带你一起向钱冲" class="img-rounded">
+	</div>
+
+	<!-- 容器 -->
+	<div class="weui-tab">
+		<div class="weui-navbar">
+			<a class="weui-navbar__item weui-bar__item--on" href="#tab1"> 登录
+			</a> <a class="weui-navbar__item" href="#tab2"> 注册 </a> <a
+				class="weui-navbar__item" href="#tab3"> 忘记密码 </a>
+		</div>
+
+
+		<div class="weui-tab__bd">
+			<div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+
+
+				<a href="javascript:;"
+					class="weui-btn weui-btn_disabled weui-btn_warn prompt">确认</a>
+
+				<div class="weui-cells  tab1">
+					<div class="weui-cell">
+						<div class="weui-cell__hd">
+							<label class="weui-label">用户名：</label>
+						</div>
+						<div class="weui-cell__bd">
+							<input id="name" name="name" autocomplete="off"
+								class="weui-input" type="text" placeholder="请输入用户名" required>
+						</div>
+					</div>
+
+					<div class="weui-cell">
+						<div class="weui-cell__hd">
+							<label class="weui-label">密&nbsp;&nbsp;码：</label>
+						</div>
+						<div class="weui-cell__bd">
+							<input id="password" name="password" autocomplete="off"
+								class="weui-input" type="password" placeholder="请输入密码" required>
+						</div>
+					</div>
+
+					<div class="weui-cell weui-cell_vcode">
+						<div class="weui-cell__hd">
+							<label class="weui-label">验证码：</label>
+						</div>
+						<div class="weui-cell__bd">
+							<input id="PayAmount" name="PayAmount" type="number"
+								class="weui-input" placeholder="请输入验证码" required />
+						</div>
+						<div class="weui-cell__ft">
+							<button class="weui-vcode-btn" id="verificationcode">获取验证码</button>
+						</div>
+					</div>
+
+					<a class="weui-btn weui-btn_primary " id="submit"
+						style="font-size: 35px;">提&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;交</a>
+				</div>
+			</div>
+
+			<script>
+				//点击，后台生成一个6位数的随机数，在前端展示
+				$("#verificationcode").click(function() {
+					var flag = 60;
+					$("#verificationcode").attr("disabled", "disabled");
+					var list = {};
+					//
+					$.ajax({
+						//请求方式
+						type : "POST",
+						//请求的媒体类型
+						contentType : "application/json;charset=UTF-8",
+						//请求地址
+						url : "http://yzcoder.nat300.top/weixin/verification",
+						//数据，json字符串
+						data : JSON.stringify(list),
+						//请求成功
+						success : function(result) {
+							//启动倒计时,60分钟内填写有效，否则从新发送短信验证码
+							var time = setInterval(function() {
+								flag--;
+								$("#verificationcode").html(result+" &nbsp; "+flag + "秒");
+
+								if (flag == 0) {
+									clearInterval(time);
+									flag = 30;
+									$("#verificationcode").html("获取验证码")
+									$("#verificationcode").removeAttr("disabled");
+								}
+							}, 1000);
+							
+						},
+						//请求失败，包含具体的错误信息
+						error : function(e) {
+							console.log(e.status);
+							console.log(e.responseText);
+						}
+					});
+
+				});
+			</script>
+
+			<script>
+				$("#submit").click(function() {
+
+					var userName = $("#name").val();
+					var password = $("#password").val();
+					alert(userName);
+					alert(password);
+					if (!userName || userName == '') {
+						$("#name").focus();
+						return false;
+					}
+
+					if (!password || password == '') {
+						// $.toast('表单密码未填写', "forbidden");
+						$("#password").focus();
+						return false;
+					}
+
+					//post请求
+
+				});
+			</script>
+
+
+
+
+			<div id="tab2" class="weui-tab__bd-item">
+				<h1>注册页面的内容，写在此</h1>
+
+				<div class="weui-cells weui-cells_form tab2">
+					<div class="weui-cell">
+						<div class="weui-cell__hd">
+							<label class="weui-label">用户名2：</label>
+						</div>
+						<div class="weui-cell__bd">
+							<input id="name" name="name" class="weui-input" type="text"
+								placeholder="" required>
+						</div>
+					</div>
+					<div class="weui-cell">
+						<div class="weui-cell__hd">
+							<label class="weui-label">密&nbsp;&nbsp;&nbsp;码2：</label>
+						</div>
+						<div class="weui-cell__bd">
+							<input id="password" name="password" class="weui-input"
+								type="password" placeholder="" required>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="tab3" class="weui-tab__bd-item">
+				<h1>忘记密码的页面内容，写在此</h1>
+				<div class="weui-cells weui-cells_form tab3">
+					<div class="weui-cell">
+						<div class="weui-cell__hd">
+							<label class="weui-label">用户名3：</label>
+						</div>
+						<div class="weui-cell__bd">
+							<input id="name" name="name" class="weui-input" type="text"
+								placeholder="" required>
+						</div>
+					</div>
+					<div class="weui-cell">
+						<div class="weui-cell__hd">
+							<label class="weui-label">密&nbsp;&nbsp;&nbsp;码3：</label>
+						</div>
+						<div class="weui-cell__bd">
+							<input id="password" name="password" class="weui-input"
+								type="password" placeholder="" required>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+
+	<script>
+		//切换tab标签
+		$(".weui-navbar__item").click(
+				function() {
+					$(this).addClass('weui-bar__item--on').siblings()
+							.removeClass('weui-bar__item--on');
+
+					var tabId = $(this).attr('href');
+					alert(tabId);
+
+					$(".weui-tab__bd").find(tabId).addClass(
+							"weui-tab__bd-item--active").siblings()
+							.removeClass('weui-tab__bd-item--active');
+
+					$(".weui-tab__bd").find(tabId).show();
+
+					$(".weui-tab__bd").find(tabId).siblings().hide();
+
+				});
+	</script>
+
+
+
+
+
+
+
+
+
+
+	<div class="weui-footer weui-footer_fixed-bottom">
+		<p class="weui-footer__text">
+		<h2>欢迎您使用本微信产品</h2>
+		</p>
+		<p class="weui-footer__text">
+		<h2>Copyright © 2020-2022 Markus</h2>
+		</p>
+	</div>
+
+</body>
+
+</html>

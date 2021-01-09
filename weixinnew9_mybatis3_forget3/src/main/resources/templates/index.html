@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Markus的微信公众号 - 会员中心</title>
+
+
+
+
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<script th:src="@{/js/bootstrap-table.min.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<!-- 在url上使用@标签，可以帮助我们自动加上contextpath -->
+	<link rel="stylesheet" th:href="@{/weui/css/jquery-weui.css}">
+	<link rel="stylesheet" th:href="@{/weui/css/weui.min.css}">
+
+	
+	<script th:src="@{/weui/js/jquery-weui.js}"></script>
+	<script th:src="@{/weui/js/toast.js}"></script>
+	
+	<script th:src="@{/weui/js/jquery.min.js}"></script>
+	
+<style>
+.weui-label {
+	font-size: 30px;
+	background-color: red;
+	width: 300px;
+}
+
+#topheader {
+	font-size: 30px;
+}
+
+.weui_tab_bd  .weui_tabbar_item {
+	display: none;
+}
+</style>
+
+
+
+</head>
+<body>
+
+
+	<a class="weui-btn weui-btn_primary" id="ttt">按钮</a>
+	
+	<script>
+	$("#ttt").click(function(){
+		$.alert("自定义的消息内容", "自定义的标题");
+		alert("click is begin");
+		$.toast("取消操作", "cancel");
+	});
+	
+	
+	</script>
+
+
+
+
+
+
+</body>
+</html>
